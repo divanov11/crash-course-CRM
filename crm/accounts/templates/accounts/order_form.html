@@ -1,0 +1,37 @@
+{% extends 'accounts/main_template.html' %}
+{% load static %}
+{% block content %}
+{% load widget_tweaks %}
+
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+			{% if action == 'create' %}
+				<h3>Create Order</h3>
+			{% elif action == 'update' %}
+				<h3>Update Order</h3>
+			{% endif %}
+			
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+			<form action="" method="POST">
+            	{% csrf_token %}
+				{% for field in form %}
+					{{field.label}}
+					{{field|add_class:'form-control'}}
+				
+				{% endfor %}
+				<hr>
+				<input type="submit" class="btn btn-info">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
