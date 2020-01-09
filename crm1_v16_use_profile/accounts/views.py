@@ -28,6 +28,7 @@ def registerPage(request):
 
 			group = Group.objects.get(name='customer')
 			user.groups.add(group)
+			#Added username after video because of error returning customer name if not added
 			Customer.objects.create(
 				user=user,
 				name=user.username,
