@@ -59,7 +59,7 @@ class ParentModel(models.Model):
 	name = models.CharField(max_length=200, null=True)
 
 class ChildModel(models.Model):
-	parent = models.ForeignKey(Customer)
+	parent = models.ForeignKey(ParentModel)
 	name = models.CharField(max_length=200, null=True)
 
 parent = ParentModel.objects.first()
