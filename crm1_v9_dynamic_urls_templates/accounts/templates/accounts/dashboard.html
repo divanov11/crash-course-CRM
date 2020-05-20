@@ -16,6 +16,7 @@
 				<tr>
 					<th>Customer</th>
 					<th>Phone</th>
+					<th>Orders</th>
 				</tr>
 
 				{% for customer in customers %}
@@ -23,6 +24,7 @@
 
 						<td>{{customer.name}}</td>
 						<td>{{customer.phone}}</td>
+						<td>{{c_ordr}}</td>
 					</tr>
 				{% endfor %}
 
