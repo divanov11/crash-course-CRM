@@ -13,10 +13,15 @@ def home(request):
 	total_orders = orders.count()
 	delivered = orders.filter(status='Delivered').count()
 	pending = orders.filter(status='Pending').count()
+	
+	#code to count orders of customers
+	
+	for cust_ordr in customers:
+        	cust_ordr = orders.filter(customer=cust_ordr).count()
 
 	context = {'orders':orders, 'customers':customers,
 	'total_orders':total_orders,'delivered':delivered,
-	'pending':pending }
+	'pending':pending, 'c_ordr':cust_ordr}
 
 	return render(request, 'accounts/dashboard.html', context)
 
