@@ -1,0 +1,22 @@
+{% extends 'accounts/main_template.html' %}
+{% block content %}
+
+
+<br>
+<div class="row">
+	<div class="col-md-6">
+		<div class="card card-body">
+
+			<p>Are you sure you want to delete "{{item}}"?</p>
+			<form  action="" method="post">
+				{% csrf_token %}
+				<a class="btn btn-warning" href="{{request.META.HTTP_REFERER}}">Go back</a>
+
+			  	<input class="btn btn-danger" type="submit"/>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
