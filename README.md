@@ -1,2 +1,3 @@
-# crash-course-CRM
-Django customer management platform
+# ecommerce dashboard
+written in django framework
+for internship purpose
