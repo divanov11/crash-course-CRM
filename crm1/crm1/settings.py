@@ -106,8 +106,12 @@ DATABASES = {
 '''
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USERNAME'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
@@ -164,11 +168,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 #SMTP Configuration
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = os.environ.get('MAIL_HOST'),
+EMAIL_PORT = os.environ.get('MAIL_PORT'),
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '*********'
-EMAIL_HOST_PASSWORD = '*********'
+EMAIL_HOST_USER = os.environ.get('MAIL_USERNAME'),
+EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD'),
 
 
 
