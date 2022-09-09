@@ -1,0 +1,78 @@
+version: '3.5'
+   
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crm-app
+    working_dir: /app
+    restart: unless-stopped
+    command: python crm1/manage.py runserver 0.0.0.0:8080
+    tty: true
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - .:/app
+    environment:
+      - DB_HOST=${POSTGRES_HOST}
+      - DB_PORT=${POSTGRES_PORT}
+      - DB_NAME=${POSTGRES_DATABASE}
+      - DB_USERNAME=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+    depends_on:
+      - database
+    networks:
+    - crm-network
+
+  database:
+    image: postgres:14.5-alpine3.16
+    container_name: crm-database
+    restart: unless-stopped
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    networks:
+      - crm-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: crm-pgadmin
+    restart: unless-stopped
+    depends_on:
+      - database
+    ports:
+      - ${PGADMIN_PORT}:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - crm-network
+
+  mailhog:
+    image: 'mailhog/mailhog:v1.0.1'
+    container_name: crm-mailhog
+    restart: unless-stopped
+    ports:
+      - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+      - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+    networks:
+      - crm-network
+      
+volumes:
+  pgadmin:
+
+networks:
+  crm-network:
+    driver: bridge
